@@ -6,21 +6,21 @@ gsap.registerPlugin(ScrollTrigger)
 
 const PHASES = [
   {
-    img: 'https://images.unsplash.com/photo-1526676037777-05a232554f77?w=1800&q=85',
+    img: '/ironman%20start.jpeg',
     phase: '01 · Natação',
     title: ['CORTE', 'A ÁGUA', 'SEM FREIO'],
     body: 'Tecido hidrodinâmico com compressão graduada. Menos arrasto, mais propulsão no open water.',
     align: 'left',
   },
   {
-    img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1800&q=85',
+    img: '/cycle.jpeg',
     phase: '02 · Ciclismo',
     title: ['AERO', 'EM CADA', 'PEDALADA'],
     body: 'Painéis de silicone antiderrapante, costuras planas e corte anatômico TT para potência máxima.',
     align: 'right',
   },
   {
-    img: 'https://images.unsplash.com/photo-1565992441121-4367ef2f9f18?w=1800&q=85',
+    img: '/pumar-1.jpeg',
     phase: '03 · Corrida',
     title: ['CHEGUE', 'MAIS', 'FORTE'],
     body: 'Compressão graduada que mantém o fluxo sanguíneo ativo. Menos fadiga, melhor transição.',

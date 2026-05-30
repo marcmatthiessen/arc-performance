@@ -6,12 +6,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const GALLERY_ITEMS = [
-  { img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80', label: 'Swim Start · Floripa', rot: -2 },
-  { img: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=600&q=80', label: 'T1 · Rio 70.3', rot: 1.5 },
-  { img: 'https://images.unsplash.com/photo-1526676037777-05a232554f77?w=600&q=80', label: 'Bike Leg · Pernambuco', rot: -1 },
-  { img: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&q=80', label: 'Open Water · Santos', rot: 2 },
-  { img: 'https://images.unsplash.com/photo-1565992441121-4367ef2f9f18?w=600&q=80', label: 'Run · Finish Line', rot: -1.5 },
-  { img: 'https://images.unsplash.com/photo-1601455763557-db1bea8a9a5a?w=600&q=80', label: 'Podium · Fortaleza', rot: 1 },
+  { img: '/ironman%20start.jpeg', label: 'Largada · Ironman', rot: -2 },
+  { img: '/cycle.jpeg', label: 'Bike Leg · ARC', rot: 1.5 },
+  { img: '/pumar-1.jpeg', label: 'Corrida · Pumar', rot: -1 },
+  { img: '/pumar-2.jpeg', label: 'Atletas ARC · Pumar', rot: 2 },
+  { img: '/ma.png', label: 'ARC Performance', rot: -1.5 },
+  { img: '/pumar-2.jpeg', label: 'Chegada · ARC', rot: 1 },
 ]
 
 export default function Gallery() {

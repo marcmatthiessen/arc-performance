@@ -1,225 +1,153 @@
-import { useEffect, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { gsap } from 'gsap'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
-const MARQUEE_TEXT = 'BUILT TO WIN • RACE OPTIMIZED • ARC PERFORMANCE • PRECISION ENGINEERED • '
+const COLS = [
+  {
+    title: 'Support',
+    links: [
+      { label: 'FAQ',                  to: '/faq' },
+      { label: 'Contact Us',           to: '/contact' },
+      { label: 'Returns & Exchanges',  to: '/returns' },
+      { label: 'Size Chart',           to: '/size-chart' },
+      { label: 'Shipping Info',        to: '/faq' },
+    ],
+  },
+  {
+    title: 'ARC Performance',
+    links: [
+      { label: 'About ARC',      to: '/#about' },
+      { label: 'Our Method',     to: '/method' },
+      { label: 'Athletes',       to: '/athletes' },
+      { label: 'Sustainability', to: '/sustainability' },
+      { label: 'Careers',        to: '/careers' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { label: 'Privacy Policy',      to: '/privacy' },
+      { label: 'Terms & Conditions',  to: '/terms' },
+      { label: 'Cookie Policy',       to: '/cookies' },
+      { label: 'Right of Withdrawal', to: '/returns' },
+    ],
+  },
+]
 
 export default function Footer() {
-  const marqueeRef = useRef<HTMLDivElement>(null)
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (marqueeRef.current) {
-        gsap.to(marqueeRef.current, {
-          xPercent: -50,
-          duration: 35,
-          ease: 'none',
-          repeat: -1,
-        })
-      }
-    })
-    return () => ctx.revert()
-  }, [])
+  const [email, setEmail] = useState('')
+  const [subscribed, setSubscribed] = useState(false)
 
   return (
-    <footer
-      style={{
-        background: 'var(--bg)',
-        borderTop: '1px solid var(--stroke)',
-        overflow: 'hidden',
-        paddingTop: '0',
-      }}
-    >
-      {/* Big CTA section */}
-      <div
-        ref={ref}
-        style={{
-          padding: '120px 48px 80px',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          textAlign: 'center',
-          position: 'relative',
-        }}
-      >
-        {/* Glow */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '600px',
-            height: '300px',
-            background: 'radial-gradient(ellipse, rgba(232,100,42,0.07) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }}
-        />
+    <footer id="contact" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '80px 48px 0' }}>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-xs uppercase font-semibold mb-8"
-          style={{ color: 'var(--orange)', letterSpacing: '6px', position: 'relative' }}
-        >
-          Designed to Perform · Built to Win
-        </motion.p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1.4fr', gap: '48px', paddingBottom: '64px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.1 }}
-          className="font-condensed italic font-bold uppercase leading-none"
-          style={{
-            fontSize: 'clamp(56px, 10vw, 140px)',
-            letterSpacing: '3px',
-            color: 'var(--text)',
-            position: 'relative',
-          }}
-        >
-          PRONTO PARA<br />
-          <span style={{ color: 'var(--orange)' }}>QUEBRAR</span><br />
-          RECORDS?
-        </motion.h2>
+          {COLS.map(col => (
+            <div key={col.title}>
+              <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '9px', fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '20px' }}>
+                {col.title}
+              </p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '13px' }}>
+                {col.links.map(link => (
+                  <li key={link.label}>
+                    <Link
+                      to={link.to}
+                      style={{ fontFamily: 'Barlow, sans-serif', fontWeight: 300, fontSize: '13px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s', display: 'inline-block' }}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#C8FF00')}
+                      onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.25 }}
-          className="font-light mt-8 mx-auto"
-          style={{
-            fontSize: '14px',
-            color: 'var(--muted)',
-            maxWidth: '460px',
-            lineHeight: '1.8',
-            letterSpacing: '0.5px',
-            position: 'relative',
-          }}
-        >
-          Junte-se aos atletas que decidiram levar a performance a sério. Primeira semana completamente gratuita.
-        </motion.p>
+          <div>
+            <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '9px', fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '20px' }}>
+              Follow ARC
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '13px', marginBottom: '32px' }}>
+              {[
+                { label: 'Instagram ↗', href: 'https://instagram.com' },
+                { label: 'Strava ↗',    href: 'https://strava.com' },
+                { label: 'LinkedIn ↗',  href: 'https://linkedin.com' },
+              ].map(s => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                  style={{ fontFamily: 'Barlow, sans-serif', fontWeight: 300, fontSize: '13px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#C8FF00')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          style={{ marginTop: '48px', position: 'relative' }}
-        >
-          <div className="accent-border rounded-full inline-block">
-            <button
-              className="rounded-full font-bold text-sm uppercase transition-all duration-300 hover:scale-105"
-              style={{
-                background: 'var(--orange)',
-                color: '#fff',
-                padding: '20px 64px',
-                fontFamily: 'Barlow, sans-serif',
-                letterSpacing: '4px',
-                boxShadow: '0 0 0 0 rgba(232,100,42,0)',
-                transition: 'all 0.3s',
-              }}
-              onMouseEnter={e => {
-                (e.target as HTMLElement).style.boxShadow = '0 24px 60px rgba(232,100,42,0.35)'
-              }}
-              onMouseLeave={e => {
-                (e.target as HTMLElement).style.boxShadow = '0 0 0 0 rgba(232,100,42,0)'
-              }}
-            >
-              Começar Gratuitamente
-            </button>
+            <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginBottom: '12px', letterSpacing: '0.5px' }}>
+              Updates, drops and training tips.
+            </p>
+            {subscribed ? (
+              <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '12px', color: '#C8FF00', letterSpacing: '1px' }}>
+                Subscribed
+              </p>
+            ) : (
+              <div style={{ display: 'flex', gap: '0' }}>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  style={{
+                    flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)',
+                    borderRight: 'none', color: '#fff', fontFamily: 'Barlow, sans-serif', fontSize: '12px',
+                    padding: '11px 14px', outline: 'none',
+                  }}
+                />
+                <button
+                  onClick={() => { if (email) setSubscribed(true) }}
+                  style={{
+                    background: '#C8FF00', color: '#000', border: 'none', cursor: 'pointer',
+                    fontFamily: 'Barlow, sans-serif', fontSize: '10px', fontWeight: 700,
+                    letterSpacing: '2px', textTransform: 'uppercase', padding: '11px 16px',
+                    whiteSpace: 'nowrap', transition: 'opacity 0.2s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                >
+                  OK
+                </button>
+              </div>
+            )}
           </div>
-        </motion.div>
-      </div>
-
-      {/* Marquee */}
-      <div
-        style={{
-          overflow: 'hidden',
-          borderTop: '1px solid var(--stroke)',
-          borderBottom: '1px solid var(--stroke)',
-          padding: '20px 0',
-          background: 'var(--surface)',
-        }}
-      >
-        <div
-          ref={marqueeRef}
-          style={{ display: 'inline-flex', whiteSpace: 'nowrap', width: 'max-content' }}
-        >
-          {[...Array(8)].map((_, i) => (
-            <span
-              key={i}
-              className="font-condensed italic font-bold uppercase"
-              style={{
-                fontSize: '14px',
-                letterSpacing: '5px',
-                color: i % 2 === 0 ? 'var(--muted)' : 'var(--orange)',
-                padding: '0 32px',
-                flexShrink: 0,
-              }}
-            >
-              {MARQUEE_TEXT}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Footer bar */}
-      <div
-        style={{
-          padding: '32px 48px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-        }}
-      >
-        <div
-          className="font-condensed italic font-bold uppercase"
-          style={{ fontSize: '22px', color: 'var(--text)', letterSpacing: '4px' }}
-        >
-          ARC
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div
-            className="pulse-dot"
-            style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: '#4ade80',
-            }}
-          />
-          <span className="text-xs font-semibold uppercase" style={{ color: 'var(--muted)', letterSpacing: '2px' }}>
-            Disponível para novos atletas
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 0 32px', flexWrap: 'wrap', gap: '16px' }}>
+          <span style={{ fontFamily: 'Bebas Neue, Barlow Condensed, sans-serif', fontWeight: 400, fontSize: '20px', color: '#fff', letterSpacing: '3px' }}>
+            ARC
           </span>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {[
+              { label: 'Privacy',  to: '/privacy' },
+              { label: 'Terms',    to: '/terms' },
+              { label: 'Cookies',  to: '/cookies' },
+            ].map((l, i) => (
+              <span key={l.label} style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                {i > 0 && <span style={{ color: 'rgba(255,255,255,0.15)', fontSize: '10px' }}>·</span>}
+                <Link to={l.to} style={{ fontFamily: 'Barlow, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none', letterSpacing: '1px', transition: 'color 0.2s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#C8FF00')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.3)')}
+                >
+                  {l.label}
+                </Link>
+              </span>
+            ))}
+          </div>
+          <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.22)', letterSpacing: '0.5px' }}>
+            © 2025 ARC Performance · arcperformance.com.br
+          </p>
         </div>
-
-        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-          {['Instagram', 'Strava', 'LinkedIn'].map(s => (
-            <a
-              key={s}
-              href="#"
-              className="text-xs font-semibold uppercase"
-              style={{
-                color: 'var(--muted)',
-                letterSpacing: '2px',
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
-            >
-              {s}
-            </a>
-          ))}
-        </div>
-
-        <p className="text-xs" style={{ color: 'var(--muted)', letterSpacing: '1px' }}>
-          © 2025 ARC Performance · arcperformance.com.br
-        </p>
       </div>
     </footer>
   )

@@ -1,36 +1,95 @@
 import { useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
-import LoadingScreen from './components/LoadingScreen'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { LanguageProvider } from './contexts/LanguageContext'
+import { AuthProvider } from './contexts/AuthContext'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Ticker from './components/Ticker'
-import ScrollPhotoSection from './components/ScrollPhotoSection'
-import Stats from './components/Stats'
-import Collection from './components/Collection'
-import Gallery from './components/Gallery'
+import Shop from './components/Shop'
+import Technology from './components/Technology'
+import About from './components/About'
+import Journal from './components/Journal'
 import Footer from './components/Footer'
+import CookieBanner from './components/CookieBanner'
+import SearchOverlay from './components/SearchOverlay'
+import ProtectedRoute from './components/ProtectedRoute'
+import ContactPage from './pages/ContactPage'
+import FAQPage from './pages/FAQPage'
+import ReturnsPage from './pages/ReturnsPage'
+import SizeChartPage from './pages/SizeChartPage'
+import PrivacyPage from './pages/PrivacyPage'
+import TermsPage from './pages/TermsPage'
+import CookiesPage from './pages/CookiesPage'
+import AthletesPage from './pages/AthletesPage'
+import SustainabilityPage from './pages/SustainabilityPage'
+import CareersPage from './pages/CareersPage'
+import MethodPage from './pages/MethodPage'
+import CollectionLayoutPage from './pages/CollectionLayoutPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import EmailConfirmPage from './pages/EmailConfirmPage'
+import AccountLayout from './pages/AccountLayout'
+import AccountPage from './pages/AccountPage'
+import OrdersPage from './pages/OrdersPage'
+import AddressesPage from './pages/AddressesPage'
 
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true)
+function MainPage() {
+  const [shopCategory, setShopCategory] = useState<string | null>(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  const handleCategorySelect = (cat: string | null) => {
+    setShopCategory(cat)
+    setTimeout(() => {
+      document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })
+    }, 50)
+  }
 
   return (
     <>
-      <AnimatePresence>
-        {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-      </AnimatePresence>
-
-      {!isLoading && (
-        <>
-          <Navbar />
-          <Hero />
-          <Ticker />
-          <ScrollPhotoSection />
-          <Stats />
-          <Collection />
-          <Gallery />
-          <Footer />
-        </>
-      )}
+      <Navbar onCategorySelect={handleCategorySelect} onSearchOpen={() => setSearchOpen(true)} />
+      <Hero />
+      <Shop category={shopCategory} setCategory={setShopCategory} />
+      <Technology />
+      <About />
+      <Journal />
+      <Footer />
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
+  )
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/"              element={<MainPage />} />
+            <Route path="/login"         element={<LoginPage />} />
+            <Route path="/register"      element={<RegisterPage />} />
+            <Route path="/auth/confirm"  element={<EmailConfirmPage />} />
+            <Route path="/contact"       element={<ContactPage />} />
+            <Route path="/faq"           element={<FAQPage />} />
+            <Route path="/returns"       element={<ReturnsPage />} />
+            <Route path="/size-chart"    element={<SizeChartPage />} />
+            <Route path="/privacy"       element={<PrivacyPage />} />
+            <Route path="/terms"         element={<TermsPage />} />
+            <Route path="/cookies"       element={<CookiesPage />} />
+            <Route path="/athletes"      element={<AthletesPage />} />
+            <Route path="/sustainability" element={<SustainabilityPage />} />
+            <Route path="/careers"       element={<CareersPage />} />
+            <Route path="/method"        element={<MethodPage />} />
+            <Route path="/collection-v3" element={<CollectionLayoutPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/account" element={<AccountLayout />}>
+                <Route index element={<AccountPage />} />
+                <Route path="orders"    element={<OrdersPage />} />
+                <Route path="addresses" element={<AddressesPage />} />
+              </Route>
+            </Route>
+          </Routes>
+          <CookieBanner />
+        </BrowserRouter>
+      </AuthProvider>
+    </LanguageProvider>
   )
 }
