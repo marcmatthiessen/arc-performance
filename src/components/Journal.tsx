@@ -34,13 +34,13 @@ export default function Journal() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px' }}>
           <div>
             <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '5px', textTransform: 'uppercase', marginBottom: '12px' }}>
-              STORIES · PERFORMANCE · DESIGN
+              ATHLETES · RACES · DESIGN
             </p>
             <h2 style={{
               fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 700, fontStyle: 'italic',
               fontSize: 'clamp(48px, 6vw, 80px)', color: '#fff', lineHeight: 0.9, letterSpacing: '-1px',
             }}>
-              JOURNAL
+              MEDIA
             </h2>
           </div>
           <button style={{

@@ -154,6 +154,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   ]
 
   return (
+    <>
     <nav
       ref={navRef}
       style={{
@@ -504,14 +505,17 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
         )}
       </div>
 
-      {/* Mobile full-screen overlay menu */}
-      {isMobile && menuOpen && (
-        <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.97)',
-          zIndex: 200, display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'space-between',
-          padding: '24px 32px 48px',
-        }}>
+      <CartDrawer />
+    </nav>
+
+    {/* Mobile menu — outside <nav> to avoid GSAP transform stacking context */}
+    {isMobile && menuOpen && (
+      <div style={{
+        position: 'fixed', inset: 0, background: '#000',
+        zIndex: 9999, display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'space-between',
+        padding: '24px 32px 48px',
+      }}>
           {/* Top row: logo + close */}
           <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <img
@@ -575,10 +579,8 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               </button>
             ))}
           </div>
-        </div>
-      )}
-
-      <CartDrawer />
-    </nav>
+      </div>
+    )}
+    </>
   )
 }
