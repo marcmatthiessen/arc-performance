@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { useAuth } from '../contexts/AuthContext'
 
 const INPUT: React.CSSProperties = {
@@ -14,6 +15,7 @@ const LABEL: React.CSSProperties = {
 
 export default function RegisterPage() {
   const { signUp } = useAuth()
+  const isMobile = useIsMobile()
 
   const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
   const [showPw, setShowPw] = useState(false)
@@ -42,21 +44,23 @@ export default function RegisterPage() {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '100vh', background: 'var(--bg)' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', minHeight: '100vh', background: 'var(--bg)' }}>
 
-      {/* Left — image */}
-      <div style={{ position: 'relative', overflow: 'hidden' }}>
-        <img src="/pumar-1.jpeg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }} />
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px' }}>
-          <img src="/ARC_logo_transparente_branco_4000px.png" alt="ARC" style={{ height: '48px', marginBottom: '32px' }} />
-          <p style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 700, fontStyle: 'italic', fontSize: '28px', color: '#fff', textAlign: 'center', letterSpacing: '1px', textTransform: 'uppercase' }}>
-            PERFORMANCE STARTS<br />WITH ONE STEP.
-          </p>
+      {/* Left — image (hidden on mobile) */}
+      {!isMobile && (
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <img src="/pumar-1.jpeg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }} />
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px' }}>
+            <img src="/ARC_logo_transparente_branco_4000px.png" alt="ARC" style={{ height: '48px', marginBottom: '32px' }} />
+            <p style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 700, fontStyle: 'italic', fontSize: '28px', color: '#fff', textAlign: 'center', letterSpacing: '1px', textTransform: 'uppercase' }}>
+              PERFORMANCE STARTS<br />WITH ONE STEP.
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Right — form */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '64px 48px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '48px 24px' : '64px 48px' }}>
         <div style={{ width: '100%', maxWidth: '400px' }}>
 
           {success ? (

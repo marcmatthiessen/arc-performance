@@ -99,3 +99,11 @@ body {
 .skeleton { background: linear-gradient(90deg, var(--surface) 25%, #1a1a1a 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
 .shake { animation: shake 0.3s ease; }
 .bounce-in { animation: bounce-in 0.3s ease; }
+
+/* ── Mobile responsive ─────────────────── */
+@media (max-width: 768px) {
+  /* Cart drawer full width */
+  .cart-drawer { width: 100vw !important; }
+  /* Auth modal full height */
+  .auth-modal-inner { max-height: 100vh !important; border-radius: 0 !important; }
+}

@@ -1,3 +1,5 @@
+import { useIsMobile } from '../hooks/useIsMobile'
+
 const ARTICLES = [
   {
     img: '/ironman%20start.jpeg',
@@ -23,9 +25,10 @@ const ARTICLES = [
 ]
 
 export default function Journal() {
+  const isMobile = useIsMobile()
   return (
-    <section id="journal" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '100px 0' }}>
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 48px' }}>
+    <section id="journal" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.06)', padding: isMobile ? '60px 0' : '100px 0' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: `0 ${isMobile ? '16px' : '48px'}` }}>
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px' }}>
@@ -53,7 +56,7 @@ export default function Journal() {
         </div>
 
         {/* Articles grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '2px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr', gap: '2px' }}>
           {ARTICLES.map((a, i) => (
             <div
               key={i}

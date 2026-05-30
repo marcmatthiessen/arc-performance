@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '../stores/cartStore';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -11,6 +12,7 @@ export default function CartDrawer() {
   const { isOpen, closeCart, items, removeItem, updateQuantity, totalItems, totalPrice } = useCartStore();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const shippingRemaining = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice);
   const shippingProgress = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100);
@@ -56,7 +58,7 @@ export default function CartDrawer() {
               right: 0,
               top: 0,
               bottom: 0,
-              width: 420,
+              width: isMobile ? '100vw' : 420,
               background: '#0A0A0A',
               borderLeft: '1px solid #222222',
               zIndex: 150,

@@ -4,6 +4,7 @@ import { getProductBySlug, LOCAL_PRODUCTS } from '../data/localProducts'
 import { useCartStore } from '../stores/cartStore'
 import type { Product } from '../types/product'
 import Navbar from '../components/Navbar'
+import { useIsMobile } from '../hooks/useIsMobile'
 import Footer from '../components/Footer'
 import CartDrawer from '../components/CartDrawer'
 import toast from 'react-hot-toast'
@@ -12,6 +13,7 @@ const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
 export default function LocalProductPage() {
   const { slug } = useParams<{ slug: string }>()
+  const isMobile = useIsMobile()
   const navigate = useNavigate()
   const { addItem, openCart } = useCartStore()
 
@@ -96,7 +98,7 @@ export default function LocalProductPage() {
       <CartDrawer />
 
       <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '80px' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '40px 48px 80px' }}>
+        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: isMobile ? '24px 16px 60px' : '40px 48px 80px' }}>
 
           {/* Breadcrumb */}
           <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '11px', color: 'var(--muted)', marginBottom: '40px' }}>
@@ -108,7 +110,7 @@ export default function LocalProductPage() {
             {' / '}{product.name}
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '32px' : '80px' }}>
 
             {/* LEFT — Image */}
             <div style={{ position: 'sticky', top: '100px', alignSelf: 'start' }}>
@@ -195,7 +197,7 @@ export default function LocalProductPage() {
               </div>
 
               {/* Trust badges */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: '32px', padding: '16px 0', borderTop: '1px solid var(--stroke)', borderBottom: '1px solid var(--stroke)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '8px', marginBottom: '32px', padding: '16px 0', borderTop: '1px solid var(--stroke)', borderBottom: '1px solid var(--stroke)' }}>
                 {[['🚚', 'Free shipping R$350+'], ['🔄', '30-day returns'], ['🔒', 'Secure payment'], ['✅', 'Certified']].map(([icon, label]) => (
                   <div key={label as string} style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '18px', marginBottom: '4px' }}>{icon}</div>
@@ -237,7 +239,7 @@ export default function LocalProductPage() {
           {related.length > 0 && (
             <div style={{ marginTop: '80px', paddingTop: '48px', borderTop: '1px solid var(--stroke)' }}>
               <h2 style={{ fontFamily: 'Bebas Neue, Barlow Condensed, sans-serif', fontSize: '36px', color: 'var(--text)', letterSpacing: '3px', marginBottom: '32px' }}>MORE FROM THIS LINE</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '2px' }}>
                 {related.map(p => (
                   <div key={p.slug} onClick={() => navigate(`/product/${p.slug}`)} style={{ cursor: 'pointer', background: '#0D0D0D' }}>
                     <div style={{ aspectRatio: '1', overflow: 'hidden', background: '#111' }}>

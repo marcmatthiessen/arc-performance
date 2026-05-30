@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LOCAL_PRODUCTS } from '../data/localProducts'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const CATEGORIES = [
   { label: 'Triathlon',    img: '/ironman%20start.jpeg' },
@@ -30,7 +31,7 @@ export default function Shop({ category, setCategory }: ShopProps) {
   return (
     <section id="collection" style={{ background: '#0D0D0D' }}>
       <div style={{ padding: '0 0 80px' }}>
-        <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '64px 48px 0' }}>
+        <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '64px clamp(16px,4vw,48px) 0' }}>
           <p style={{ fontFamily: 'Barlow, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.35)', letterSpacing: '5px', textTransform: 'uppercase', marginBottom: '12px' }}>
             SHOP BY CATEGORY
           </p>
@@ -38,8 +39,8 @@ export default function Shop({ category, setCategory }: ShopProps) {
             COLLECTION '26
           </h3>
         </div>
-        <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 48px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '2px' }}>
+        <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 clamp(16px,4vw,48px)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '2px' }}>
             {CATEGORIES.map(cat => (
               <CategoryTile key={cat.label} label={cat.label} image={cat.img} onClick={() => setCategory(cat.label)} />
             ))}
@@ -70,6 +71,7 @@ type FilterType = 'all' | 'racesuit' | 'jersey'
 
 function ProductGrid({ title, onBack }: { title: string; onBack: () => void }) {
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
   const [filter, setFilter] = useState<FilterType>('all')
   const [search, setSearch] = useState('')
 
@@ -86,10 +88,10 @@ function ProductGrid({ title, onBack }: { title: string; onBack: () => void }) {
 
   return (
     <div style={{ background: '#0D0D0D', padding: '60px 0 100px' }}>
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 48px' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: `0 clamp(16px,4vw,48px)` }}>
 
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'flex-end', marginBottom: '32px', flexWrap: 'wrap', gap: '16px', flexDirection: isMobile ? 'column' : 'row' }}>
           <div>
             <button onClick={onBack} style={{ fontFamily: 'Barlow, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '2px', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', marginBottom: '12px', padding: 0, display: 'block' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
@@ -140,7 +142,7 @@ function ProductGrid({ title, onBack }: { title: string; onBack: () => void }) {
             </button>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '2px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fill, minmax(260px, 1fr))', gap: '2px' }}>
             {items.map(product => (
               <ProductCard
                 key={product.slug}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { useAuth } from '../contexts/AuthContext'
 
 const INPUT: React.CSSProperties = {
@@ -14,6 +15,7 @@ const LABEL: React.CSSProperties = {
 
 export default function LoginPage() {
   const { signIn, resetPassword } = useAuth()
+  const isMobile = useIsMobile()
   const navigate = useNavigate()
   const location = useLocation()
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/account'
@@ -46,10 +48,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '100vh', background: 'var(--bg)' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', minHeight: '100vh', background: 'var(--bg)' }}>
 
-      {/* Left — image */}
-      <div style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Left — image (hidden on mobile) */}
+      {!isMobile && <div style={{ position: 'relative', overflow: 'hidden' }}>
         <img src="/cycle.jpeg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.3)' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px' }}>
           <img src="/ARC_logo_transparente_branco_4000px.png" alt="ARC" style={{ height: '48px', marginBottom: '32px' }} />
@@ -57,10 +59,10 @@ export default function LoginPage() {
             ENGINEERED FOR SPEED.<br />BUILT TO WIN.
           </p>
         </div>
-      </div>
+      </div>}
 
       {/* Right — form */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '64px 48px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '48px 24px' : '64px 48px' }}>
         <div style={{ width: '100%', maxWidth: '400px' }}>
 
           <h1 style={{ fontFamily: 'Bebas Neue, Barlow Condensed, sans-serif', fontSize: '48px', color: 'var(--text)', marginBottom: '8px', letterSpacing: '3px' }}>

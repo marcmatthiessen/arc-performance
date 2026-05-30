@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const COLS = [
   {
@@ -36,12 +37,13 @@ const COLS = [
 export default function Footer() {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const isMobile = useIsMobile()
 
   return (
     <footer id="contact" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '80px 48px 0' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: `${isMobile ? '48px 24px 0' : '80px 48px 0'}` }}>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1.4fr', gap: '48px', paddingBottom: '64px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : '1fr 1fr 1fr 1.4fr', gap: isMobile ? '32px' : '48px', paddingBottom: '48px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
 
           {COLS.map(col => (
             <div key={col.title}>
@@ -123,7 +125,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 0 32px', flexWrap: 'wrap', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', padding: '24px 0 32px', gap: '16px' }}>
           <span style={{ fontFamily: 'Bebas Neue, Barlow Condensed, sans-serif', fontWeight: 400, fontSize: '20px', color: '#fff', letterSpacing: '3px' }}>
             ARC
           </span>
