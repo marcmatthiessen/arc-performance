@@ -14,7 +14,7 @@ interface NavbarProps {
 
 const SUB_ITEMS = ['Triathlon Suits', 'Cycling Jerseys', 'Bibs', 'Running', 'Training']
 
-export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) {
+export default function Navbar({ onSearchOpen }: NavbarProps) {
   const navRef = useRef<HTMLElement>(null)
   const { lang, setLang } = useLanguage()
   const { user, signOut } = useAuth()
@@ -80,14 +80,33 @@ export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) 
     womenTimer.current = setTimeout(() => setWomenSubOpen(false), 140)
   }
 
-  const handleCategoryClick = (cat: string | null) => {
+  const goHome = () => navigate('/')
+
+  const goToSection = (id: string) => {
+    if (window.location.pathname === '/') {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/')
+      setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 300)
+    }
+  }
+
+  const handleCategoryClick = (cat: string) => {
     setCollDropOpen(false)
     setMenSubOpen(false)
     setWomenSubOpen(false)
-    onCategorySelect?.(cat)
+    navigate(`/collections/${cat.toLowerCase().replace(/\s+/g, '-')}`)
   }
 
-  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  const handleCollectionClick = () => {
+    setCollDropOpen(false)
+    if (window.location.pathname === '/') {
+      document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/')
+      setTimeout(() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' }), 300)
+    }
+  }
 
   const linkStyle = (hovered?: boolean): React.CSSProperties => ({
     fontFamily: 'Barlow, sans-serif', fontWeight: 400, fontSize: '10px',
@@ -126,7 +145,7 @@ export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) 
       <img
         src="/ARC_logo_transparente_branco_4000px.png"
         alt="ARC"
-        onClick={() => window.location.pathname !== '/' ? (window.location.href = '/') : scrollTo('hero')}
+        onClick={goHome}
         style={{
           height: '20px', width: 'auto', cursor: 'pointer',
           userSelect: 'none',
@@ -142,6 +161,7 @@ export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) 
           onMouseLeave={closeColl}
         >
           <button
+            onClick={handleCollectionClick}
             style={{
               ...linkStyle(),
               color: collDropOpen ? '#fff' : 'rgba(255,255,255,0.65)',
@@ -165,7 +185,7 @@ export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) 
               }}
             >
               <button
-                onClick={() => handleCategoryClick(null)}
+                onClick={handleCollectionClick}
                 style={{
                   ...dropItemStyle,
                   color: '#fff', fontWeight: 600,
@@ -296,15 +316,15 @@ export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) 
         </div>
 
         {[
-          { label: 'TECHNOLOGY', id: 'technology' },
-          { label: 'ACCESSORIES', id: 'collection' },
-          { label: 'JOURNAL', id: 'journal' },
-          { label: 'ABOUT', id: 'about' },
-          { label: 'CONTACT', id: 'contact' },
-        ].map(({ label, id }) => (
+          { label: 'TECHNOLOGY',  action: () => goToSection('racesuits') },
+          { label: 'ACCESSORIES', action: () => navigate('/collections/accessories') },
+          { label: 'MEDIA',       action: () => goToSection('journal') },
+          { label: 'ABOUT',       action: () => goToSection('about') },
+          { label: 'CONTACT',     action: () => navigate('/contact') },
+        ].map(({ label, action }) => (
           <button
             key={label}
-            onClick={() => scrollTo(id)}
+            onClick={action}
             style={linkStyle()}
             onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
             onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.65)')}

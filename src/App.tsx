@@ -6,6 +6,7 @@ import { LanguageProvider } from './contexts/LanguageContext'
 import { AuthProvider } from './contexts/AuthContext'
 import CollectionPage from './pages/CollectionPage'
 import LocalProductPage from './pages/LocalProductPage'
+import AccessoriesPage from './pages/AccessoriesPage'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Shop from './components/Shop'
@@ -87,7 +88,8 @@ export default function App() {
             <Route path="/collection-v3" element={<CollectionLayoutPage />} />
             <Route path="/products/:slug"       element={<ProductPage />} />
             <Route path="/collections/:category" element={<CollectionPage />} />
-            <Route path="/product/:slug"         element={<LocalProductPage />} />
+            <Route path="/product/:slug"              element={<LocalProductPage />} />
+            <Route path="/collections/accessories"    element={<AccessoriesPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/account" element={<AccountLayout />}>
                 <Route index element={<AccountPage />} />
