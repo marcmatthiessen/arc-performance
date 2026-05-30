@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
+import { Toaster } from 'react-hot-toast'
 import { LanguageProvider } from './contexts/LanguageContext'
 import { AuthProvider } from './contexts/AuthContext'
+import CollectionPage from './pages/CollectionPage'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Shop from './components/Shop'
@@ -24,6 +27,7 @@ import SustainabilityPage from './pages/SustainabilityPage'
 import CareersPage from './pages/CareersPage'
 import MethodPage from './pages/MethodPage'
 import CollectionLayoutPage from './pages/CollectionLayoutPage'
+import ProductPage from './pages/ProductPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import EmailConfirmPage from './pages/EmailConfirmPage'
@@ -59,6 +63,7 @@ function MainPage() {
 
 export default function App() {
   return (
+    <HelmetProvider>
     <LanguageProvider>
       <AuthProvider>
         <BrowserRouter>
@@ -79,6 +84,8 @@ export default function App() {
             <Route path="/careers"       element={<CareersPage />} />
             <Route path="/method"        element={<MethodPage />} />
             <Route path="/collection-v3" element={<CollectionLayoutPage />} />
+            <Route path="/products/:slug"       element={<ProductPage />} />
+            <Route path="/collections/:category" element={<CollectionPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/account" element={<AccountLayout />}>
                 <Route index element={<AccountPage />} />
@@ -88,8 +95,10 @@ export default function App() {
             </Route>
           </Routes>
           <CookieBanner />
+          <Toaster position="top-right" toastOptions={{ style: { background: '#111', color: '#F0EDE6', border: '1px solid #222', fontFamily: 'Barlow, sans-serif', fontSize: '13px' } }} />
         </BrowserRouter>
       </AuthProvider>
     </LanguageProvider>
+    </HelmetProvider>
   )
 }

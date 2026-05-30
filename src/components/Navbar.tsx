@@ -3,6 +3,8 @@ import { gsap } from 'gsap'
 import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
+import { useCartStore } from '../stores/cartStore'
+import CartDrawer from './CartDrawer'
 
 interface NavbarProps {
   onCategorySelect?: (cat: string | null) => void
@@ -17,6 +19,7 @@ export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) 
   const { lang, setLang } = useLanguage()
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
+  const { totalItems, openCart } = useCartStore()
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef<HTMLDivElement>(null)
 
@@ -412,18 +415,27 @@ export default function Navbar({ onCategorySelect, onSearchOpen }: NavbarProps) 
           )}
         </div>
 
-        <svg
-          width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="rgba(255,255,255,0.65)" strokeWidth="1.5" strokeLinecap="round"
-          style={{ cursor: 'pointer', transition: 'stroke 0.15s' }}
-          onMouseEnter={e => (e.currentTarget.style.stroke = 'rgba(255,255,255,0.9)')}
-          onMouseLeave={e => (e.currentTarget.style.stroke = 'rgba(255,255,255,0.65)')}
-        >
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <path d="M16 10a4 4 0 0 1-8 0" />
-        </svg>
+        <div style={{ position: 'relative', cursor: 'pointer' }} onClick={openCart}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.65)" strokeWidth="1.5" strokeLinecap="round" style={{ display: 'block' }}>
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          {totalItems > 0 && (
+            <div style={{
+              position: 'absolute', top: '-8px', right: '-8px',
+              width: '16px', height: '16px', borderRadius: '50%',
+              background: 'var(--orange)', color: '#000',
+              fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '9px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              lineHeight: 1,
+            }}>
+              {totalItems > 9 ? '9+' : totalItems}
+            </div>
+          )}
+        </div>
       </div>
+      <CartDrawer />
     </nav>
   )
 }
